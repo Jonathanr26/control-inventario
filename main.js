@@ -15,7 +15,7 @@ var costoPro = document.querySelector('#costoPro');
 var cantPro = document.querySelector('#cantPro');
 var borrarPro = document.querySelector('#borrarPro');
 var buscarPor = document.querySelector('#buscarPro');
-var lista = document.querySelector("#listado")
+var lista = document.querySelector("#listado");
 
 class Producto{
     constructor(codigo, nombre, descripcion, costo, cantidad){
@@ -37,10 +37,10 @@ class Inventario{
     constructor(){
     }
     agregarP(nombre){
-        if(this.v1.length >= vM){
+        if(v1.length >= 19){
             return "Tu inventario esta lleno"
         }else{
-            this.v1.push(nombre)
+            v1.push(nombre)
             return "Se agrego el producto"
         }
     }
@@ -58,7 +58,7 @@ class Inventario{
     buscarP(idP){
         for(let i = 0; i < v1.length; i++){
             if(idP == v1[i].codigo){
-                return v1[i].producto;
+                return v1[i].nombre;
             }
         }
     }
@@ -66,55 +66,48 @@ class Inventario{
     listarP(){
         for(let i = 0; i < v1.length; i++){
             if(v1[i] !== undefined){
-                let nuevoP = document.createElement('li')
-                return v1[i].producto;
+                let nuevoP = document.createElement('li');
+                nuevoP.textContent = '${i}: ${v1[i].nombre}'
+                lista.appendChild(nuevoP)
+            }
+        }
+    }
+
+    listaPIn(){
+        for(let i = v1.length -1; i >= 0; i--){
+            if(v1[i] !== undefined){
+                let nuevoP = document.createElement('li');
+                nuevoP.textContent = `${i}: ${v1[i].nombre}`
+                lista.appendChild(nuevoP)
             }
         }
     }
 
 }
-let inventario = new Inventario;
+let inventario = new Inventario();
 //Agregar
 btAgregar.addEventListener('click', () => {
-    let newProdcuto = new Producto(codigo.value, nombre.value, descripcion.value, costo.value, cantidad.value);
+    let newProdcuto = new Producto(codigoPro.value, nombrePro.value, descPro.value, costoPro.value, cantPro.value);
     alert(inventario.agregarP(newProdcuto));
 });
 
 //Borrar
 btBorrar.addEventListener('click', () => {
-    function buscar(v1, codigoPro){
-        let x = 0;
-        for(let i = codigoPro; i < v1.length; i++){
-            if(codigoPro == codigoPro.value){
-                x = i+1;
-            }            
-        };
-    }
-
-    function borrar(v1, codigoPro){
-        delete v1[codigoPro];
-        for(let i = codigoPro; i < v1.length; i++){
-            v1[i] = v1[i+1];
-        }
-        v1.length--;
-        return v1;
-    }
-
-    x = buscar(v1, codigoPro);
-    borrar(v1, x);
-
-    document.getElementById("2").reset()
-    console.log(v1)
+    alert(inventario.borrarP(codigoPro.value));
 })
 
 //Buscar
 btBuscar.addEventListener('click', () => {
-    function buscar(v1, codigoPro){
-        let x = 0;
-        for(let i = codigoPro; i < v1.length; i++){
-            if(codigoPro == codigoPro.value){
-                x = i+1;
-            }            
-        };
-    }
+    alert(inventario.buscarP(codigoPro.value));
 })
+
+//Lista
+btListar.addEventListener('click', () => {
+    console.log(inventario.listaP());
+})
+
+//Listar inverso
+btListarIn.addEventListener('click', () => {
+    inventario.listaPIn();
+})
+console.log(inventario);
