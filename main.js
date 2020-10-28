@@ -69,7 +69,7 @@ class Inventario {
     for (let i = 0; i < v1.length; i++) {
       if (idP == v1[i].codigo) {
         lista.innerHTML = v1[i].articleToHtml();
-        document.getElementById("form_1").reset();
+        document.getElementById("form_3").reset();
         return v1[i].nombre;
       }
     }
