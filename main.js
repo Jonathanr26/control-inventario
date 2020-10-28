@@ -58,6 +58,7 @@ class Inventario {
         let borrado = v1[i].nombre;
         v1[i] = null;
         borrarPro.value = "";
+        document.getElementById("form_2").reset();
         this.listaP();
         return borrado;
       }
@@ -68,6 +69,7 @@ class Inventario {
     for (let i = 0; i < v1.length; i++) {
       if (idP == v1[i].codigo) {
         lista.innerHTML = v1[i].articleToHtml();
+        document.getElementById("form_1").reset();
         return v1[i].nombre;
       }
     }
@@ -102,19 +104,19 @@ btAgregar.addEventListener("click", () => {
     cantPro.value
   );
   inventario.agregarP(newProdcuto);
-  document.getElementById("1").reset();
+  
 });
 
 //Borrar
 btBorrar.addEventListener("click", () => {
   inventario.borrarP(borrarPro.value);
-  document.getElementById("2").reset()
+  
 });
 
 //Buscar
 btBuscar.addEventListener("click", () => {
   inventario.buscarP(buscarPor.value);
-  document.getElementById("3").reset()
+  
 });
 
 //Lista
