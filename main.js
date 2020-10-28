@@ -1,113 +1,128 @@
 //Botones
 var v1 = [];
-var vM = 19;
-var btAgregar = document.querySelector('#btAgregar');
-var btBorrar = document.querySelector('#btBorrar');
-var btBuscar = document.querySelector('#btBuscar');
-var btListar = document.querySelector('#btListar');
-var btListarIn = document.querySelector('#btListarIn');
+var btAgregar = document.querySelector("#btAgregar");
+var btBorrar = document.querySelector("#btBorrar");
+var btBuscar = document.querySelector("#btBuscar");
+var btListar = document.querySelector("#btListar");
+var btListarIn = document.querySelector("#btListarIn");
 
 //Inputs
-var codigoPro = document.querySelector('#codigoPro');
-var nombrePro = document.querySelector('#nombrePro');
-var descPro = document.querySelector('#descPro');
-var costoPro = document.querySelector('#costoPro');
-var cantPro = document.querySelector('#cantPro');
-var borrarPro = document.querySelector('#borrarPro');
-var buscarPor = document.querySelector('#buscarPro');
+var codigoPro = document.querySelector("#codigoPro");
+var nombrePro = document.querySelector("#nombrePro");
+var descPro = document.querySelector("#descPro");
+var costoPro = document.querySelector("#costoPro");
+var cantPro = document.querySelector("#cantPro");
+var borrarPro = document.querySelector("#borrarPro");
+var buscarPor = document.querySelector("#buscarPro");
 var lista = document.querySelector("#listado");
 
-class Producto{
-    constructor(codigo, nombre, descripcion, costo, cantidad){
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.costo = costo;
-        this.cantidad = cantidad;
+class Producto {
+  constructor(codigo, nombre, descripcion, costo, cantidad) {
+    this.codigo = codigo;
+    this.nombre = nombre;
+    this.descripcion = descripcion;
+    this.costo = costo;
+    this.cantidad = cantidad;
+  }
+  valor() {
+    let cantidad = this.cantidad;
+    let costo = this.costo;
+    let valor = cantidad * costo;
+    return valor;
+  }
+  articleToHtml() {
+    let productString = '<li class="list-group-item">';
+    for (let key in this) {
+      productString += `<div><strong>${key}:</strong> ${this[key]}</div>`;
     }
-    valor(){
-        let cantidad = this.cantidad;
-        let costo = this.costo;
-        let valor = cantidad * costo;
-        return valor
-    }
+    let valor_string = `<div><strong>Valor Total:</strong> ${this.valor()}</div>`;
+    return productString + valor_string + "</li>";
+  }
 }
 
-class Inventario{
-    constructor(){
+class Inventario {
+  agregarP(nombre) {
+    if (v1.length >= 19) {
+      return "Tu inventario esta lleno";
+    } else {
+      v1.push(nombre);
+      document.getElementById("form_1").reset();
+      this.listaP();
+      return "Se agrego el producto";
     }
-    agregarP(nombre){
-        if(v1.length >= 19){
-            return "Tu inventario esta lleno"
-        }else{
-            v1.push(nombre)
-            return "Se agrego el producto"
-        }
-    }
+  }
 
-    borrarP(idP){
-        for(let i = 0; i < v1.length; i++){
-            if(idP == v1[i].codigo){
-                let borrado = v1[i].nombre;
-                v1.splice(i, 1);
-                return borrado;
-            }
-        }
+  borrarP(idP) {
+    for (let i = 0; i < v1.length; i++) {
+      if (idP == v1[i].codigo) {
+        let borrado = v1[i].nombre;
+        v1[i] = null;
+        borrarPro.value = "";
+        this.listaP();
+        return borrado;
+      }
     }
+  }
 
-    buscarP(idP){
-        for(let i = 0; i < v1.length; i++){
-            if(idP == v1[i].codigo){
-                return v1[i].nombre;
-            }
-        }
+  buscarP(idP) {
+    for (let i = 0; i < v1.length; i++) {
+      if (idP == v1[i].codigo) {
+        lista.innerHTML = v1[i].articleToHtml();
+        return v1[i].nombre;
+      }
     }
+  }
 
-    listarP(){
-        for(let i = 0; i < v1.length; i++){
-            if(v1[i] !== undefined){
-                let nuevoP = document.createElement('li');
-                nuevoP.textContent = '${i}: ${v1[i].nombre}'
-                lista.appendChild(nuevoP)
-            }
-        }
+  listaP() {
+    lista.innerHTML = "";
+    for (let i = 0; i < v1.length; i++) {
+      if (v1[i]) {
+        lista.innerHTML += v1[i].articleToHtml();
+      }
     }
+  }
 
-    listaPIn(){
-        for(let i = v1.length -1; i >= 0; i--){
-            if(v1[i] !== undefined){
-                let nuevoP = document.createElement('li');
-                nuevoP.textContent = `${i}: ${v1[i].nombre}`
-                lista.appendChild(nuevoP)
-            }
-        }
+  listaPIn() {
+    lista.innerHTML = "";
+    for (let i = v1.length - 1; i >= 0; i--) {
+      if (v1[i]) {
+        lista.innerHTML += v1[i].articleToHtml();
+      }
     }
-
+  }
 }
 let inventario = new Inventario();
 //Agregar
-btAgregar.addEventListener('click', () => {
-    let newProdcuto = new Producto(codigoPro.value, nombrePro.value, descPro.value, costoPro.value, cantPro.value);
-    alert(inventario.agregarP(newProdcuto));
+btAgregar.addEventListener("click", () => {
+  let newProdcuto = new Producto(
+    codigoPro.value,
+    nombrePro.value,
+    descPro.value,
+    costoPro.value,
+    cantPro.value
+  );
+  inventario.agregarP(newProdcuto);
+  document.getElementById("1").reset();
 });
 
 //Borrar
-btBorrar.addEventListener('click', () => {
-    alert(inventario.borrarP(codigoPro.value));
-})
+btBorrar.addEventListener("click", () => {
+  inventario.borrarP(borrarPro.value);
+  document.getElementById("2").reset()
+});
 
 //Buscar
-btBuscar.addEventListener('click', () => {
-    alert(inventario.buscarP(codigoPro.value));
-})
+btBuscar.addEventListener("click", () => {
+  inventario.buscarP(buscarPor.value);
+  document.getElementById("3").reset()
+});
 
 //Lista
-btListar.addEventListener('click', () => {
-    console.log(inventario.listaP());
-})
+btListar.addEventListener("click", () => {
+  inventario.listaP();
+});
 
 //Listar inverso
-btListarIn.addEventListener('click', () => {
-    inventario.listaPIn();
-})
-console.log(inventario);
+btListarIn.addEventListener("click", () => {
+  inventario.listaPIn();
+});
